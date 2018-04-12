@@ -103,6 +103,7 @@ public class RunOrder
             message.append( runOrders[i] );
         }
         message.append( '.' );
+        message.append( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
         return message.toString();
     }
 
