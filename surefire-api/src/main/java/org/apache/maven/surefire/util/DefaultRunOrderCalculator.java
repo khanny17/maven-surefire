@@ -22,6 +22,11 @@ package org.apache.maven.surefire.util;
 import org.apache.maven.plugin.surefire.runorder.RunEntryStatisticsMap;
 import org.apache.maven.surefire.testset.RunOrderParameters;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -68,9 +73,43 @@ public class DefaultRunOrderCalculator
         return new TestsToRun( new LinkedHashSet<Class<?>>( result ) );
     }
 
+    private void customOrder( List<Class<?>> testClasses )
+    {
+        JSONObject obj = new JSONObject();
+        obj.put( "test", "Test Value" );
+
+        JSONArray list = new JSONArray();
+
+        for ( Class<?> c : testClasses )
+        {
+            list.add( c.getName() );
+        }
+
+        obj.put( "test_classes", list );
+
+        try
+        {
+            FileWriter file = new FileWriter( "kevin_testfile.json" );
+            file.write( obj.toString() );
+            file.flush();
+            file.close();
+        }
+        catch ( IOException e )
+        {
+            e.printStackTrace();
+        }
+
+        Collections.shuffle( testClasses );    
+    }
+
     private void orderTestClasses( List<Class<?>> testClasses, RunOrder runOrder )
     {
-        if ( RunOrder.RANDOM.equals( runOrder ) )
+        if ( RunOrder.CUSTOM.equals( runOrder ) )
+        {
+            System.out.println( "CUSTOM Ordering! Here we go!" );
+            customOrder( testClasses );
+        }
+        else if ( RunOrder.RANDOM.equals( runOrder ) )
         {
             Collections.shuffle( testClasses );
         }

@@ -30,6 +30,8 @@ import java.util.StringTokenizer;
  */
 public class RunOrder
 {
+    public static final RunOrder CUSTOM = new RunOrder( "custom" );
+
     public static final RunOrder ALPHABETICAL = new RunOrder( "alphabetical" );
 
     public static final RunOrder FILESYSTEM = new RunOrder( "filesystem" );
@@ -109,7 +111,16 @@ public class RunOrder
 
     private static RunOrder[] values()
     {
-        return new RunOrder[]{ ALPHABETICAL, FILESYSTEM, HOURLY, RANDOM, REVERSE_ALPHABETICAL, BALANCED, FAILEDFIRST };
+        return new RunOrder[]{
+            CUSTOM,
+            ALPHABETICAL,
+            FILESYSTEM,
+            HOURLY,
+            RANDOM,
+            REVERSE_ALPHABETICAL,
+            BALANCED,
+            FAILEDFIRST
+        };
     }
 
     public static String asString( RunOrder[] runOrder )
